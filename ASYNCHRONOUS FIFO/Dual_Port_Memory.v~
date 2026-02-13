@@ -1,0 +1,27 @@
+module DualPortMem #(parameter DATAWIDTH = 8, parameter DEPTH = 8, parameter ADDR = $clog2(DEPTH))
+(
+input wclk,
+input rclk,
+input wr,rd,
+input full,empty,
+input [ADDR-1:0] Waddr,
+input [ADDR-1:0] Raddr,
+input [DATAWIDTH - 1:0]Wdata,
+
+output reg [DATAWIDTH - 1:0]Rdata
+);
+
+reg [DATAWIDTH-1:0] Mem [0:DEPTH-1];
+
+//write data
+
+always@(posedge wclk) begin
+  if(wr && !full) 
+    Mem[Waddr] <= Wdata;
+  else ;
+end
+
+always@(posedge rclk)
+  Rdata <= Mem[Raddr];
+
+endmodule
